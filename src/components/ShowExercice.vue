@@ -1,8 +1,76 @@
 /* eslint-disable */
 <template>
 <div class="page">
-  <a class="btn btn-primary pull-left" v-on:click="goto" role="button">↵ Retour</a>
+  <div class='row'>
+    
+    <div class='col-4'>
+      <a class="btn btn-primary pull-center" v-on:click="goto" role="button">↵ Retour</a>
+      </div>
+    <div class='col-4'></div>
+    <div class='col-4'>
+      Avant de
+      <button type="button" class="btn btn-dark" data-dismiss="modal" @click="showModal = true">
+      commencer l'exercice
+      </button>
+    </div>
+  </div>
+  
   <br>
+
+  <div v-if="showModal">
+    <transition name="modal">
+      <div class="modal-mask">
+        <div class="modal-wrapper">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel2">Avant de
+                  <button type="button" class="btn btn-dark" data-dismiss="modal" @click="showModal = false">
+                  commencer l'exercice
+                  </button>
+                </h4>
+              </div>
+              <div class="modal-body">
+                <p> Pour cette exercice, vous aurez besoin de {{nbCube}} cubes.</p>
+                <p>Les cubes connectés actuellement :</p>
+                <!-- Form starts -->
+                <form id="cubeIdToAction" @submit="onSubmit()">
+                  <div v-for="userItem in userResponseValue" :key=userItem>
+                    <div class="row">
+                      <div class="col-6">
+                        {{ userItem }}
+                      </div>
+                      <div  class="col-6">
+                        <select class="select"  @name=" userItem ">
+                          <option v-for="cubeItem in cubeNeeded" :key="cubeItem" @id="cubeItem">{{ cubeItem }}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Submit Button -->
+                  <div class="row">
+                    <button @click="refreshCubeData()" class="btn btn-warning btn-lg btn-block">Recharger</button>
+                  </div>
+                  <div class="row">
+                    <button type="submit" class="btn btn-danger btn-lg btn-block">Valider les cubes</button>
+                  </div>
+                </form>
+                <!-- Form ends -->
+              </div>
+              <div class="modal-footer">
+                <p>
+                  <u>
+                  Afin de les parametrer, connectez les un par un au cube master, afin de leur associer la valeur correspondante
+                  </u>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+      </div>
+
       <div class="row">
         <div class="col-6">
           <div class="titre">
@@ -28,7 +96,7 @@
       <br>
       <div class="row">
         <div class="col-4">
-          <button v-on:click="checkWithCubes" type="button" class="btn btn-primary">Comparer la réponse avec les cubes</button>
+          <button  type="button" class="btn btn-primary">Comparer la réponse avec les cubes</button>
         </div>
         <div v-if="showExercice" class="col-4">
           <button type="button" class="btn btn-success" v-on:click="changeImg(exercice[6])" >Voir l'exercice</button>
@@ -41,7 +109,15 @@
         </div>
       </div>
       <br>
-      <div class="row" id='cubeShow'>
+      <div class="row">
+    <div class="col-4"></div>
+    <div class="col-4">
+          <button v-on:click="checkWithCubes" type="button" class="btn btn-primary">Comparer la réponse avec les cubes virtuels</button>
+    </div>
+    <div class="col-4"></div>
+    </div>
+    <br>
+    <div class="row" id='cubeShow'>
         <div class="col-3"></div>
         <div class="col-6">
 <!--          RESOLUTION VIA CUBE-->
@@ -50,7 +126,7 @@
               <tr>
                  <span v-for="item_x in arrayOne(exercice[13])" :key="item_x">
                    {{ updateIdGrid() }}
-                   <td class="cube vide" v-bind:id="idGrid" >
+                   <td class="cube vide" v-bind:id="idGrid" :ref="idGrid">
                    </td>
                    {{ addOneIX() }}
                  </span>
@@ -64,6 +140,7 @@
         </div>
         <div class="col-3"></div>
       </div>
+      <br>
       <div class="row">
         <div class="col-3">
         </div>
@@ -71,8 +148,6 @@
           <p>
             Pas de cubes ? Tentez de résoudre l'exercice ici avant de regarder la réponse !
           </p>
-<!--          RESOLUTION VIRTUELLE-->
-<!--parcourt la taille de matrice de bdd, et creer un tableau selon cette taille-->
             <table class="center">
               <tr>
                 <td>
@@ -84,7 +159,7 @@
                 <tr>
                  <span v-for="item_x_virt in arrayOne(exercice[9])" :key="item_x_virt">
                    {{ updateIdGridVirtual() }}
-                   <td v-on:click="manageClass(idGridVirtual)" class="cube vide" v-bind:id="idGridVirtual">
+                   <td v-on:click="manageClass($event)" class="cube vide" v-bind:id="idGridVirtual" :ref="idGridVirtual">
                      {{ addOneIXVirtual() }}
                    </td>
                  </span>
@@ -99,6 +174,8 @@
         <div class="col-3">
       </div>
     </div>
+    <br>
+    
 </div>
 </template>
 <script>
@@ -108,7 +185,7 @@ export default {
       acc: 0,
       id: 0,
       exercice: [],
-      showModalData: true,
+      showModalData: false,
       xCarMatrix: '',
       yCarMatrix: '',
       coordFinish: '',
@@ -125,7 +202,17 @@ export default {
       iXGrid: 0,
       idGridVirtual: '',
       x: 0,
-      y: 0
+      y: 0,
+      showCubeDisplay: false,
+      xStart: 2,
+      yStart: 2,
+      mapUserResponse: [],
+      mapCubeToId: [],
+      newCarState: 'UP',
+      actualCoord: '',
+      showModal: false,
+      nbCube: 0,
+      resultatForm: ''
     }
   },
   mounted() {
@@ -139,46 +226,287 @@ export default {
         t.xCarMatrix = t.exercice[13]
         t.yCarMatrix = t.exercice[14]
         t.coordFinish = t.exercice[15]
+        t.xStart = t.exercice[16]
+        t.yStart = t.exercice[17]
         const arrayCubeNeeded = t.objectCubes.split('"');
         const arrayCubeNeededFiltered = {}
         for(let i = 1; i<arrayCubeNeeded.length; i += 4){
           arrayCubeNeededFiltered[arrayCubeNeeded[i]] = arrayCubeNeeded[i+2]
         }
         this.cubeNeeded = arrayCubeNeededFiltered
+        this.nbCube = Math.floor(arrayCubeNeeded.length/4)
       })
+    this.$axios
+      .get('http://127.0.0.1:5000/getUserResponse')
+      .then((response) => {
+        const userResponse = response.data
+        this.mapUserResponse = [];
+        this.userResponseValue = [];
+        for (let i = 0; i < userResponse.length; i++){
+          this.mapUserResponse[userResponse[i][3] + '' + userResponse[i][4]] = userResponse[i][2];
+          this.userResponseValue[i] = (userResponse[i][2]);
+        }
+      });
+    this.$axios
+      .get('http://127.0.0.1:5000/getCubesValuesAll')
+      .then((response) => {
+        const responseData = response['data']
+        for (let i = 0; i < responseData.length; i++){
+          this.mapCubeToId[responseData[i][0]] = responseData[i][1];
+        }
+      });
   },
   methods: {
-    hideDeleteData: function () {
+    onSubmit(){
+      this.resultatForm = '';
+      const form = document.getElementById('cubeIdToAction');
+      const formElements = form.getElementsByClassName('select');
+      for (const item of formElements) {
+        this.resultatForm = this.resultatForm + ';' + item.name + ';' + item.value;
+      }
+      console.log('resultat form')
+      console.log(this.resultatForm)
+      this.setCubeValue();
+      this.getUserResponse();
+      this.getCubeToIdMap();
+    },
+    setCubeValue(){
+      this.$axios
+      .post('http://127.0.0.1:5000/setCubesValues/' + this.resultatForm)
+      .then((response) => {
+        if (userResponse === false){
+          alert('recommencez, le reseau a du mal !');
+        }
+        else {
+          alert('C\'est bon, c\'est passé !');
+        }
+      });
+    },
+    getUserResponse(){
+
+    },
+    getUserResponse(){
+
+    },
+    getCubeToIdMap(){
+
+    },
+    setShowCubeDisplay: function(){
+      this.showCubeDisplay = this.showCubeDisplay !== true;
+    },
+    async initGridExo(){
+      const divById = document.getElementById('virt' + this.xStart + this.yStart);
+      divById.classList.add('hasCarUP');
+      await this.delay(500);
+    },
+    initVirtMatrixStartFinish(){
+      const divById = document.getElementById('virt' + this.xStart + this.yStart);
+      divById.classList.remove('vide');
+      divById.classList.add('start');
+      const divFinished = document.getElementById('virt' + this.coordFinish);
+      divFinished.classList.remove('vide');
+      divFinished.classList.add('finish');
+    },
+    getValueFromId(id){
+      return this.cubeNeeded[id];
+    },
+    async delay(ms) {
+      await new Promise(resolve => setTimeout(() => resolve(), ms)).then(() => console.log('fired'));
+    },
+    async manageForward(x, y, oldX, oldY){
+    const oldDivById = document.getElementById('virt' + oldX + oldY);
+    oldDivById.classList.remove('hasCarUP', 'hasCarDOWN', 'hasCarLEFT', 'hasCarRIGHT');
+    for (let i = 0; i < this.xCarMatrix; i++) {
+      for (let j = 0; j < this.yCarMatrix; j++) {
+        const divById = document.getElementById('virt' + x + y);
+        if (i === x && j === y) {
+          // si c'est la bonne pos, ajouter le dernier etat'
+          divById.classList.remove('hasCarUP', 'hasCarDOWN', 'hasCarLEFT', 'hasCarRIGHT');
+          if (this.newCarState === 'UP') {
+            divById.classList.add('hasCarUP');
+            await this.delay(1000);
+          } else if (this.newCarState === 'DOWN') {
+            divById.classList.add('hasCarDOWN');
+            await this.delay(1000);
+          } else if (this.newCarState === 'LEFT') {
+            divById.classList.add('hasCarLEFT');
+            await this.delay(1000);
+          } else {
+            divById.classList.add('hasCarRIGHT');
+            await this.delay(1000);
+          }
+        }
+        // si ce n'est pas la bonne pos, retirer les class car'
+        else {
+          divById.classList.remove('hasCarUP', 'hasCarDOWN', 'hasCarLEFT', 'hasCarRIGHT');
+        }
+      }
+    }
+    },
+    forward(){
+    switch (this.newCarState) {
+      case 'UP':
+        if (this.yStart - 1 < 0){
+          this.isDone = false;
+          return false;
+        }
+        else {
+          this.manageForward(this.xStart, this. yStart - 1, this.xStart, this.yStart);
+          this.yStart = this. yStart - 1;
+          this.actualCoord = 'virt' + this.xStart + '' + this.yStart;
+        }
+        break;
+
+      case 'DOWN':
+        if (this.yStart + 1 > this.yCarMatrix){
+          this.isDone = false;
+          return false;
+        }
+        else {
+          this.manageForward(this.xStart, this. yStart + 1, this.xStart, this.yStart);
+          this.yStart = this.yStart + 1;
+          this.actualCoord = 'virt' + this.xStart + '' + this.yStart;
+        }
+        break;
+
+      case 'LEFT':
+        if (this.xStart - 1 < 0){
+          this.isDone = false;
+          return false;
+        }
+        else{
+          this.manageForward(this.xStart - 1, this. yStart, this.xStart , this. yStart);
+          this.xStart = this.xStart - 1;
+          this.actualCoord = 'virt' + this.xStart + '' + this.yStart;
+        }
+        break;
+
+      case 'RIGHT':
+        if (this.xStart + 1 > this.xCarMatrix){
+          this.isDone = false;
+          return false;
+        }
+        else{
+          this.manageForward(this.xStart + 1, this. yStart, this.xStart , this. yStart);
+          this.xStart = this.xStart + 1;
+          this.actualCoord = 'virt' + this.xStart + '' + this.yStart;
+        }
+        break;
+    }
+
+    return true;
+    },
+    async manageCubesAlgo(){
+      setTimeout(async function () {
+        const sizeMap = this.mapUserResponse.size;
+        let x = 0;
+        let y = 0;
+        this.isDone = false;
+        const isWon = false;
+        let action = '';
+        this.actualCoord = '';
+        while (!this.isDone) {
+          
+        // regarde s'il y a une instruction'
+        let indexVar = '' + x + y
+      if (this.mapUserResponse[indexVar] != undefined) {
+      //   // faire l'association id vers valeur'
+      //   // AVANCER
+        if (this.mapCubeToId[Number(this.mapUserResponse['' + x + y])] === 'AVANCER') { // AVANCER
+          if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 1)])] === 'EGAL') { // EGAL
+            if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 2)])] === 'DEUX') {
+              for (let indexFor = 0; indexFor < 2; indexFor ++){
+                await this.delay(1000);
+                this.forward();
+              }
+            }
+            else if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 2)])] === 'UN'){
+              for (let indexFor = 0; indexFor < 1; indexFor ++){
+                await this.delay(1000);
+                this.forward();
+              }
+            }
+            else if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 2)])] === 'TROIS'){
+              for (let indexFor = 0; indexFor < 3; indexFor ++){
+                await this.delay(1000);
+                this.forward();
+              }
+              // regarde si la voiture est sur les bonnes coordonnées
+              if ('virt' + this.coordFinish === this.actualCoord) {
+                alert('Vous avez réussi !');
+                this.isWon = true;
+                this.isDone = true;
+              }
+            }
+              // regarde si la voiture est sur les bonnes coordonnées
+              if ('virt' + this.coordFinish === this.actualCoord) {
+                alert('Vous avez réussi !');
+                this.isWon = true;
+                this.isDone = true;
+              }
+          }
+        }
+        // TOURNER A GAUCHE
+        if (this.mapCubeToId[Number(this.mapUserResponse['' + x + y])] === 'VIRAGEGAUCHE'){
+          this.manageVirageAGauche();
+        }
+      }
+      // passe ligne suivante
+      if (this.mapUserResponse['' + (x + 1) + y] != undefined) {
+        x++;
+        y = 0;
+      } else {
+        this.isDone = true;
+      }
+
+      await this.delay(1000);
+    }
+    if (this.isDone && !this.isWon) {
+      alert('Ce n\'est pas la bonne réponse');
+        }
+      }.bind(this),0) // the `bind(this)` is important!
+
       
     },
-    checkForm: function (e) {
-
-    },
-    refreshCubeData: function() {
-
-    },
     checkWithCubes: function() {
-
+      this.setShowCubeDisplay();
+      this.initGridExo();
+      this.initVirtMatrixStartFinish();
+      // this.getValueFromId(3);
+      this.manageCubesAlgo();
     },
     changeImg: function(path) {
       this.imgUrl = require('@/assets/images/' + path)
       this.showExercice = !this.showExercice;
-      console.log(this.imgUrl)
     },
-    setFinished: function(id) {
-
-    },
-    manageClass: function(coord) {
-
+    manageClass: function(event) {
+      const coord = event.currentTarget.id;
+      const divById = this.$refs[coord];
+      if (divById[0]['classList'].contains('vide')){
+        // REGARDE SI LA DIV EST INIT, SI NON INIT AVEC ARRAYCUBENEDEED[0]
+        divById[0]['classList'].remove('vide');
+        divById[0]['classList'].add(this.cubeNeeded[1]);
+        divById[0]['innerText'] = this.cubeNeeded[1];
+      }
+      else{
+        // MET LA CLASS +1 DANS LA LISTE DES CLASS NEEDED, SI OUT OF BOUND, 0
+        const arraysize = this.classList.length;
+        const indexClassInArray = this.classList.indexOf(divById[0]['classList'][1]);
+        if (indexClassInArray + 1 > arraysize){
+          divById[0]['classList'].remove(divById.classList[1]);
+          divById[0]['classList'].add(this.classList[0]);
+          divById.innerText = this.classList[0];
+        }
+      divById[0]['classList'].remove(divById[0]['classList'][1]);
+      divById[0]['classList'].add(this.classList[indexClassInArray + 1]); 
+      divById[0]['innerText'] = this.classList[indexClassInArray + 1];
+      }
     },
     goto: function(){
       this.$router.push({ name: 'exercices' });
     },
     addClassToArray: function(className){
-      if(typeof this.classList[className] === 'undefined'){
-        this.classList.slice().push(className);
-      }
-    
+        this.classList.push(className);
     },
     filterArray: function(){
       this.classList.slice().filter((item, index) => classList.indexOf(item) === index)
@@ -351,5 +679,10 @@ img{
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+}
+.modal-title{
+  text-align: center;
+  margin: auto;
+  
 }
 </style>

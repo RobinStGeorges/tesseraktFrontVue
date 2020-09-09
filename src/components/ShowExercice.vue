@@ -216,6 +216,10 @@ export default {
     }
   },
   mounted() {
+    //Check if login first
+    if(this.$userMail == ''){
+      this.$router.push({ name: 'loginForm' });
+    }
     this.id = this.$route.params.id
     const t = this;
     this.$axios
@@ -446,6 +450,7 @@ export default {
                 alert('Vous avez réussi !');
                 this.isWon = true;
                 this.isDone = true;
+                return true;
               }
             }
               // regarde si la voiture est sur les bonnes coordonnées
@@ -453,6 +458,7 @@ export default {
                 alert('Vous avez réussi !');
                 this.isWon = true;
                 this.isDone = true;
+                return true;
               }
           }
         }

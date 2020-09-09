@@ -4,7 +4,7 @@ import router from './router'
 import VueAxios from './plugins/axios'
 import NavBar from '@/components/NavBar'
 Vue.use(VueAxios)
-Vue.prototype.$userMail = 'test@test.com'
+Vue.prototype.$userMail = ''
 Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({

@@ -22,6 +22,12 @@
 </template>
 <script>
 export default {
+  mounted(){
+    //Check if login first
+    if(this.$userMail == ''){
+      this.$router.push({ name: 'loginForm' });
+    }
+  },
   name: 'accueil',
   data () {
     return {

@@ -31,6 +31,10 @@ export default {
     }
   },
   mounted () {
+    //Check if login first
+    if(this.$userMail == ''){
+      this.$router.push({ name: 'loginForm' });
+    }
     this.$axios
       .get('http://127.0.0.1:5000/cours')
       .then(response => (this.cours = response))

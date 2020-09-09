@@ -5,9 +5,14 @@
       <h2>Vos cours</h2>
       <div class="list-group">
         <div class="list-group-item" v-for="item in cours['data']" :key="item">
-          <p>{{item[1]}}</p>
           <h3 class="list-group-item-heading titre">
-            <p><a > {{ item[2] }}</a></p>
+            <router-link :to="{ name: 'showCours', params: { id: item[0] }}">
+              <p>
+                <a>
+                  {{ item[2] }}
+                </a>
+              </p>
+            </router-link>
             <p class="description" >{{ item[3] }}</p>
           </h3>
         </div>
@@ -48,11 +53,11 @@ export default {
   padding: 0 15%;
 }
 .list-group {
-  margin-top: 25%;
+  margin-top: 5%;
 }
 .list-group-item{
   border : 2px solid #32908f;
-  margin-bottom: 17%;
+  margin-bottom: 10%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .content-col{

@@ -264,8 +264,6 @@ export default {
       for (const item of formElements) {
         this.resultatForm = this.resultatForm + ';' + item.name + ';' + item.value;
       }
-      console.log('resultat form')
-      console.log(this.resultatForm)
       this.setCubeValue();
       this.getUserResponse();
       this.getCubeToIdMap();
@@ -274,11 +272,13 @@ export default {
       this.$axios
       .post('http://127.0.0.1:5000/setCubesValues/' + this.resultatForm)
       .then((response) => {
-        if (userResponse === false){
+        console.log('RESPONSE')
+        console.log(response)
+        if (response['status'] != 200){
           alert('recommencez, le reseau a du mal !');
         }
         else {
-          alert('C\'est bon, c\'est passé !');
+          alert('C\'est bon, c\'est passé ! Vous pouvez commencer l\'exercice !');
         }
       });
     },
@@ -412,21 +412,31 @@ export default {
       if (this.mapUserResponse[indexVar] != undefined) {
       //   // faire l'association id vers valeur'
       //   // AVANCER
-        if (this.mapCubeToId[Number(this.mapUserResponse['' + x + y])] === 'AVANCER') { // AVANCER
-          if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 1)])] === 'EGAL') { // EGAL
-            if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 2)])] === 'DEUX') {
+      console.log('indexVar : ' + indexVar)
+      console.log('mapuserresponse')
+      console.log(this.mapUserResponse)
+      console.log('mapCubetoId : ')
+      console.log(this.mapCubeToId)
+        if (this.mapCubeToId[Number(this.mapUserResponse['' + x + y])-1] === 'AVANCER') { // AVANCER
+        console.log('avancer')
+          if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 1)])-1] === 'EGAL') { // EGAL
+          console.log('egal')
+            if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 2)])-1] === 'DEUX') {
+              console.log("deux")
               for (let indexFor = 0; indexFor < 2; indexFor ++){
                 await this.delay(1000);
                 this.forward();
               }
             }
-            else if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 2)])] === 'UN'){
+            else if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 2)])-1] === 'UN'){
+              console.log("un")
               for (let indexFor = 0; indexFor < 1; indexFor ++){
                 await this.delay(1000);
                 this.forward();
               }
             }
-            else if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 2)])] === 'TROIS'){
+            else if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 2)])-1] === 'TROIS'){
+              console.log("trois")
               for (let indexFor = 0; indexFor < 3; indexFor ++){
                 await this.delay(1000);
                 this.forward();
@@ -447,7 +457,8 @@ export default {
           }
         }
         // TOURNER A GAUCHE
-        if (this.mapCubeToId[Number(this.mapUserResponse['' + x + y])] === 'VIRAGEGAUCHE'){
+        if (this.mapCubeToId[Number(this.mapUserResponse['' + x + y])-1] === 'VIRAGEGAUCHE'){
+          console.log('a gauche')
           this.manageVirageAGauche();
         }
       }
@@ -467,6 +478,35 @@ export default {
       }.bind(this),0) // the `bind(this)` is important!
 
       
+    },
+    async manageVirageAGauche(){
+      const divById = document.getElementById('virt' + this.xStart + this.yStart);
+      switch (this.newCarState) {
+        case 'UP':
+          this.newCarState = 'LEFT';
+          divById.classList.remove('hasCarUP');
+          divById.classList.add('hasCarLEFT');
+          await this.delay(1000);
+          break;
+        case 'DOWN':
+          this.newCarState = 'RIGHT';
+          divById.classList.remove('hasCarDOWN');
+          divById.classList.add('hasCarRIGHT');
+          await this.delay(1000);
+          break;
+        case 'LEFT':
+          this.newCarState = 'DOWN';
+          divById.classList.remove('hasCarLEFT');
+          divById.classList.add('hasCarDOWN');
+          await this.delay(1000);
+          break;
+        case 'RIGHT':
+          this.newCarState = 'UP';
+          divById.classList.remove('hasCarRIGHT');
+          divById.classList.add('hasCarUP');
+          await this.delay(1000);
+          break;
+      }
     },
     checkWithCubes: function() {
       this.setShowCubeDisplay();
@@ -561,8 +601,8 @@ export default {
   border-width : 2px ;
   border-style: solid;
   text-align: center;
-  padding: 15%;
-  margin-top: 12%;
+  padding: 5%;
+  margin-top: 0%;
 }
 .titre{
   text-align: left;

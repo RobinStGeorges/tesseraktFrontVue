@@ -27,8 +27,7 @@ export default new Router({
       path: '/exercices',
       name: 'exercices',
       component: Exercices
-    }
-    ,
-    {path: '/exercice/:id', component: ShowExercice}
+    },
+    {path: '/exercice/:id',name: 'exercice', component: ShowExercice}
   ]
 })

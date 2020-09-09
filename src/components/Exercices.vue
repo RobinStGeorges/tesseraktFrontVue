@@ -7,12 +7,14 @@
           <div
             class="list-group-item" v-for="item in exercices['data']" :key="item">
             <h3 class="list-group-item-heading titre">
-              <p>
-                <a> {{ item[1] }}</a>
-                <span v-if="item.isValid" >
-                  <span class="glyphicon glyphicon-ok" ></span>
-                </span>
-              </p>
+              <router-link :to="{ name: 'exercice', params: { id: item[0] }}">
+                <p>
+                  <a> {{ item[1] }}</a>
+                  <span v-if="item.isValid" >
+                    <span class="glyphicon glyphicon-ok" ></span>
+                  </span>
+                </p>
+              </router-link>
               <p class="description">{{ item[2] }}</p>
             </h3>
           </div>
@@ -53,11 +55,11 @@ export default {
   padding: 0 15%;
 }
 .list-group {
-  margin-top: 25%;
+  margin-top: 5%;
 }
 .list-group-item{
   border : 2px solid #32908f;
-  margin-bottom: 17%;
+  margin-bottom: 10%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .content-col{

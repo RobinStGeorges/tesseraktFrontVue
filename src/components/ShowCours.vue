@@ -32,7 +32,7 @@ export default {
   },
   mounted() {
     //Check if login first
-    if(this.$userMail == ''){
+    if(localStorage.usertoken == ''){
       this.$router.push({ name: 'loginForm' });
     }
     this.id = this.$route.params.id

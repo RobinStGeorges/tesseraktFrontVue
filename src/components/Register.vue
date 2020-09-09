@@ -1,10 +1,18 @@
 <template>
-  <div class='page'>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 mt-5 mx-auto">
-                <form v-on:submit.prevent="login">
-                    <h1 class="h3 mb-3 font-weight-normal">Rentrez vos identifiants</h1>
+    <div class='page'>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mt-5 mx-auto">
+                    <form v-on:submit.prevent="register">
+                    <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+                    <div class="form-group">
+                        <label for="first_name">First Name</label>
+                        <input type="text" v-model="first_name" class="form-control" name="first_name" placeholder="Enter First Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name">Last Name</label>
+                        <input type="text" v-model="last_name" class="form-control" name="last_name" placeholder="Enter Last Name">
+                    </div>
                     <div class="form-group">
                         <label for="email">Email Address</label>
                         <input type="email" v-model="email" class="form-control" name="email" placeholder="Enter email">
@@ -13,49 +21,47 @@
                         <label for="password">Password</label>
                         <input type="password" v-model="password" class="form-control" name="password" placeholder="Enter Password">
                     </div>
-                    <button class="btn btn-lg btn-primary btn-block">Se connecter</button>
-                </form>
+                    <button class="btn btn-lg btn-primary btn-block">Register</button>
+                    </form>
+                </div>
             </div>
+            <br>
+            <button @click="goToLogin" class="btn btn-lg btn-primary btn-block">Se connecter</button>
         </div>
-        <br>
-        <button @click="register" class="btn btn-lg btn-primary btn-block">S'inscrire</button>
-    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import router from '../router'
-import EventBus from './EventBus'
+
 export default {
-  name: 'loginForm',
+    name: 'register',       
   data () {
     return {
+      first_name: '',
+      last_name: '',
       email: '',
       password: ''
     }
   },
+
   methods: {
-    register(){
-      this.$router.push({ name: 'register' });
+    goToLogin(){
+      this.$router.push({ name: 'loginForm' });
     },
-    login () {
-      axios.post('http://127.0.0.1:5000/users/login', {
+    register () {
+      axios.post('http://127.0.0.1:5000/users/register', {
+        first_name: this.first_name,
+        last_name: this.last_name,
         email: this.email,
         password: this.password
       }).then((res) => {
-        localStorage.setItem('usertoken', this.email)
-        this.$userMail = this.email
-        this.email = ''
-        this.password = ''
-        router.push({ name: 'cours' })
+        console.log(res)
+        router.push({ name: 'loginForm' })
       }).catch((err) => {
         console.log(err)
       })
-      this.emitMethod()
-    },
-    emitMethod () {
-      EventBus.$emit('logged-in', 'loggedin')
     }
   }
 }

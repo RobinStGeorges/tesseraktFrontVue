@@ -27,12 +27,14 @@ export default {
   data () {
     return {
       acc: 0,
-      cours: null
+      cours: null,
+      auth: '',
+      user: ''
     }
   },
   mounted () {
     //Check if login first
-    if(this.$userMail == ''){
+    if(localStorage.usertoken == ''){
       this.$router.push({ name: 'loginForm' });
     }
     this.$axios

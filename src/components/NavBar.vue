@@ -29,7 +29,7 @@
             </li>
           </router-link>
           <li class="nav-item">
-            <a style="color: darkred" v-if="true" class="nav-link" @click="logout()">Se déconnecter</a>
+            <a style="color: darkred" v-if="true" class="nav-link" @click="logout">Se déconnecter</a>
             <a  style="color: #9FE855" v-if="true == false" class="nav-link" @click="logout()">Se connecter</a>
           </li>
         </ul>
@@ -40,6 +40,7 @@
   </div>
 </template>
 <script>
+import EventBus from './EventBus'
 export default {
   name: 'nav_bar',
   data () {
@@ -47,10 +48,14 @@ export default {
     }
   },
   mounted () {
-    
+    EventBus.$on('logged-in', status => {
+      this.auth = status
+    })
   },
   methods: {
-    logout(){
+    logout () {
+      localStorage.usertoken = ''
+      this.$router.push({ name: 'loginForm' });
     }
   }
 }

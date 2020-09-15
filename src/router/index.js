@@ -8,7 +8,7 @@ import ShowExercice from '@/components/ShowExercice'
 import ShowCours from '@/components/ShowCours'
 import LoginForm from '@/components/LoginForm'
 import Register from '@/components/Register'
-
+import Profil from '@/components/Profil'
 
 Vue.use(Router)
 export default new Router({
@@ -36,6 +36,7 @@ export default new Router({
     {path: '/exercice/:id',name: 'exercice', component: ShowExercice},
     {path: '/showCours/:id',name: 'showCours', component: ShowCours},
     {path: '/login',name: 'loginForm', component: LoginForm},
-    {path: '/register',name: 'register', component: Register}
+    {path: '/register',name: 'register', component: Register},
+    {path: '/profil',name: 'profil', component: Profil}
   ]
 })

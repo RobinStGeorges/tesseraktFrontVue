@@ -5,7 +5,11 @@
   <h1>
     Bienvenue sur Tesserakt !
   </h1>
-  <u>Vous pouvez commencer par <a routerLink="/login">vous connecter</a></u>
+  <div v-if="isConnected == ''">
+    <router-link to="/login">
+      <u>Vous pouvez commencer par vous <b>connecter</b></u>
+    </router-link>
+  </div>
   <div class="">
     <div class="content">
       <h2>Qu'est-ce-que Tesserakt ?</h2>
@@ -23,10 +27,13 @@
 </template>
 <script>
 export default {
+  mounted(){
+    this.isConnected = localStorage.usertoken;
+  },
   name: 'Index',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      isConnected: ''
     }
   }
 }

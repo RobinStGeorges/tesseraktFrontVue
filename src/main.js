@@ -3,9 +3,21 @@ import App from './App'
 import router from './router'
 import VueAxios from './plugins/axios'
 import NavBar from '@/components/NavBar'
+import moment from 'moment'
+import Chartkick from 'vue-chartkick'
+import Chart from 'chart.js'
+
+Vue.use(Chartkick.use(Chart))
 Vue.use(VueAxios)
 Vue.prototype.$userMail = ''
 Vue.config.productionTip = false
+
+Vue.filter('formatDate', function(value) {
+  if (value) {
+    return moment(String(value)).format('MM/DD/YYYY hh:mm')
+  }
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -51,7 +51,7 @@ export default {
       this.$router.push({ name: 'loginForm' });
     },
     register () {
-      axios.post('http://127.0.0.1:5000/users/register', {
+      axios.post('http://' + window.location.host + ':5000/users/register', {
         first_name: this.first_name,
         last_name: this.last_name,
         email: this.email,

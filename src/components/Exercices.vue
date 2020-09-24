@@ -34,9 +34,9 @@ export default {
   },
   mounted () {
     //Check if login first
-    if(localStorage.usertoken == ''){
-      this.$router.push({ name: 'loginForm' });
-    }
+    // if(localStorage.usertoken == ''){
+    //   this.$router.push({ name: 'loginForm' });
+    // }
     this.$axios
       .get('http://127.0.0.1:5000/exercices')
       .then(response => (this.exercices = response))

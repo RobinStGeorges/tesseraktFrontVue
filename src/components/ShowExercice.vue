@@ -223,7 +223,7 @@ export default {
     this.id = this.$route.params.id
     const t = this;
     this.$axios
-      .get('http://' + window.location.host + ':5000/getExercice/' + this.id)
+      .get('http://' + this.$ipAdresse + ':5000/getExercice/' + this.id)
       .then(response => {
         t.exercice = (response.data)[0];
         t.objectCubes = t.exercice[8]
@@ -241,7 +241,7 @@ export default {
         this.nbCube = Math.floor(arrayCubeNeeded.length/4)
       })
     this.$axios
-      .get('http://' + window.location.host + ':5000/getUserResponse')
+      .get('http://' + this.$ipAdresse + ':5000/getUserResponse')
       .then((response) => {
         const userResponse = response.data
         this.mapUserResponse = [];
@@ -252,7 +252,7 @@ export default {
         }
       });
     this.$axios
-      .get('http://' + window.location.host + ':5000/getCubesValuesAll')
+      .get('http://' + this.$ipAdresse + ':5000/getCubesValuesAll')
       .then((response) => {
         const responseData = response['data']
         for (let i = 0; i < responseData.length; i++){
@@ -274,7 +274,7 @@ export default {
     },
     setCubeValue(){
       this.$axios
-      .post('http://' + window.location.host + ':5000/setCubesValues/' + this.resultatForm)
+      .post('http://' + this.$ipAdresse + ':5000/setCubesValues/' + this.resultatForm)
       .then((response) => {
         console.log('RESPONSE')
         console.log(response)

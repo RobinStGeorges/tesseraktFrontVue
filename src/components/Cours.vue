@@ -38,7 +38,7 @@ export default {
       this.$router.push({ name: 'loginForm' });
     }
     this.$axios
-      .get('http://' + window.location.host + ':5000/cours')
+      .get('http://' + this.$ipAdresse + ':5000/cours')
       .then(response => (this.cours = response))
   }
 }

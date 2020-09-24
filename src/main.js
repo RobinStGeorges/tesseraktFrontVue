@@ -10,6 +10,7 @@ import Chart from 'chart.js'
 Vue.use(Chartkick.use(Chart))
 Vue.use(VueAxios)
 Vue.prototype.$userMail = ''
+Vue.prototype.$ipAdresse = '192.168.0.24'
 Vue.config.productionTip = false
 
 Vue.filter('formatDate', function(value) {

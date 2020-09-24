@@ -38,7 +38,7 @@ export default {
     //   this.$router.push({ name: 'loginForm' });
     // }
     this.$axios
-      .get('http://127.0.0.1:5000/exercices')
+      .get('http://0.0.0.0:5000/exercices')
       .then(response => (this.exercices = response))
   }
 }

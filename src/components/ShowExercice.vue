@@ -251,14 +251,14 @@ export default {
           this.userResponseValue[i] = (userResponse[i][2]);
         }
       });
-    this.$axios
-      .get('http://' + this.$ipAdresse + ':5000/getCubesValuesAll')
-      .then((response) => {
-        const responseData = response['data']
-        for (let i = 0; i < responseData.length; i++){
-          this.mapCubeToId[responseData[i][0]] = responseData[i][1];
-        }
-      });
+    // this.$axios
+    //   .get('http://' + this.$ipAdresse + ':5000/getCubesValuesAll')
+    //   .then((response) => {
+    //     const responseData = response['data']
+    //     for (let i = 0; i < responseData.length; i++){
+    //       this.mapCubeToId[responseData[i][0]] = responseData[i][1];
+    //     }
+    //   });
   },
   methods: {
     onSubmit(){

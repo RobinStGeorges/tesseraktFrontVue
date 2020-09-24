@@ -40,7 +40,7 @@ export default {
       this.$router.push({ name: 'register' });
     },
     login () {
-      axios.post('http://127.0.0.1:5000/users/login', {
+      axios.post('http://' + window.location.host + ':5000/users/login', {
         email: this.email,
         password: this.password
       }).then((res) => {

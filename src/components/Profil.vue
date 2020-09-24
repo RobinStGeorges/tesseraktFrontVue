@@ -54,7 +54,7 @@ export default {
       this.$router.push({ name: 'loginForm' });
     }
     this.$axios
-      .post('http://127.0.0.1:5000/getUserDataByMail/' + this.userMail)
+      .post('http://' + window.location.host + ':5000/getUserDataByMail/' + this.userMail)
       .then(response => {
         this.userData = response.data
         this.userData.forEach(element => {
@@ -62,25 +62,25 @@ export default {
         }
       )
     this.$axios
-      .get('http://127.0.0.1:5000/getUserByMail/' + this.userMail)
+      .get('http://' + window.location.host + ':5000/getUserByMail/' + this.userMail)
       .then(response => {
         this.user = response.data
         })
     this.$axios
-      .get('http://127.0.0.1:5000/getUserDataStarted/' + this.userMail)
+      .get('http://' + window.location.host + ':5000/getUserDataStarted/' + this.userMail)
       .then(response => {
         this.isStartedData = response.data
         })
     this.$axios
-      .get('http://127.0.0.1:5000/getUserDataFinished/' + this.userMail)
+      .get('http://' + window.location.host + ':5000/getUserDataFinished/' + this.userMail)
       .then(response => {
         this.isFinishedData = response.data
       })
     this.$axios
-      .get('http://127.0.0.1:5000/exercices')
+      .get('http://' + window.location.host + ':5000/exercices')
       .then(response => (this.exercices = response.data))
     this.$axios
-      .get('http://127.0.0.1:5000/getDateDif/' + this.userMail)
+      .get('http://' + window.location.host + ':5000/getDateDif/' + this.userMail)
       .then(response => {
         this.arrayDateDif = response.data
         var acc = 0; var accTime = 0;

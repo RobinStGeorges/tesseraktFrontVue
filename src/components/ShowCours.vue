@@ -37,7 +37,7 @@ export default {
     }
     this.id = this.$route.params.id
     this.$axios
-      .get('http://127.0.0.1:5000/getCours/' + this.id)
+      .get('http://' + window.location.host + ':5000/getCours/' + this.id)
       .then(response => {
         console.log('response')
         console.log(response)

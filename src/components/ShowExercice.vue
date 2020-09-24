@@ -241,16 +241,16 @@ export default {
         this.nbCube = Math.floor(arrayCubeNeeded.length/4)
       })
     this.$axios
-      .get('http://' + this.$ipAdresse + ':5000/getUserResponse')
-      .then((response) => {
-        const userResponse = response.data
-        this.mapUserResponse = [];
-        this.userResponseValue = [];
-        for (let i = 0; i < userResponse.length; i++){
-          this.mapUserResponse[userResponse[i][3] + '' + userResponse[i][4]] = userResponse[i][2];
-          this.userResponseValue[i] = (userResponse[i][2]);
-        }
-      });
+      // .get('http://' + this.$ipAdresse + ':5000/getUserResponse')
+      // .then((response) => {
+      //   const userResponse = response.data
+      //   this.mapUserResponse = [];
+      //   this.userResponseValue = [];
+      //   for (let i = 0; i < userResponse.length; i++){
+      //     this.mapUserResponse[userResponse[i][3] + '' + userResponse[i][4]] = userResponse[i][2];
+      //     this.userResponseValue[i] = (userResponse[i][2]);
+      //   }
+      // });
     // this.$axios
     //   .get('http://' + this.$ipAdresse + ':5000/getCubesValuesAll')
     //   .then((response) => {

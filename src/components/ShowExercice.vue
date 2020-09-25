@@ -216,49 +216,49 @@ export default {
     }
   },
   mounted() {
-    //Check if login first
-    // if(localStorage.usertoken == ''){
-    //   this.$router.push({ name: 'loginForm' });
-    // }
-    // this.id = this.$route.params.id
-    // const t = this;
-    // this.$axios
-    //   .get('http://' + this.$ipAdresse + ':5000/getExercice/' + this.id)
-    //   .then(response => {
-    //     t.exercice = (response.data)[0];
-    //     t.objectCubes = t.exercice[8]
-    //     t.xCarMatrix = t.exercice[13]
-    //     t.yCarMatrix = t.exercice[14]
-    //     t.coordFinish = t.exercice[15]
-    //     t.xStart = t.exercice[16]
-    //     t.yStart = t.exercice[17]
-    //     const arrayCubeNeeded = t.objectCubes.split('"');
-    //     const arrayCubeNeededFiltered = {}
-    //     for(let i = 1; i<arrayCubeNeeded.length; i += 4){
-    //       arrayCubeNeededFiltered[arrayCubeNeeded[i]] = arrayCubeNeeded[i+2]
-    //     }
-    //     this.cubeNeeded = arrayCubeNeededFiltered
-    //     this.nbCube = Math.floor(arrayCubeNeeded.length/4)
-    //   })
-    // this.$axios
-      // .get('http://' + this.$ipAdresse + ':5000/getUserResponse')
-      // .then((response) => {
-      //   const userResponse = response.data
-      //   this.mapUserResponse = [];
-      //   this.userResponseValue = [];
-      //   for (let i = 0; i < userResponse.length; i++){
-      //     this.mapUserResponse[userResponse[i][3] + '' + userResponse[i][4]] = userResponse[i][2];
-      //     this.userResponseValue[i] = (userResponse[i][2]);
-      //   }
-      // });
-    // this.$axios
-    //   .get('http://' + this.$ipAdresse + ':5000/getCubesValuesAll')
-    //   .then((response) => {
-    //     const responseData = response['data']
-    //     for (let i = 0; i < responseData.length; i++){
-    //       this.mapCubeToId[responseData[i][0]] = responseData[i][1];
-    //     }
-    //   });
+    // Check if login first
+    if(localStorage.usertoken == ''){
+      this.$router.push({ name: 'loginForm' });
+    }
+    this.id = this.$route.params.id
+    const t = this;
+    this.$axios
+      .get('http://' + this.$ipAdresse + ':5000/getExercice/' + this.id)
+      .then(response => {
+        t.exercice = (response.data)[0];
+        t.objectCubes = t.exercice[8]
+        t.xCarMatrix = t.exercice[13]
+        t.yCarMatrix = t.exercice[14]
+        t.coordFinish = t.exercice[15]
+        t.xStart = t.exercice[16]
+        t.yStart = t.exercice[17]
+        const arrayCubeNeeded = t.objectCubes.split('"');
+        const arrayCubeNeededFiltered = {}
+        for(let i = 1; i<arrayCubeNeeded.length; i += 4){
+          arrayCubeNeededFiltered[arrayCubeNeeded[i]] = arrayCubeNeeded[i+2]
+        }
+        this.cubeNeeded = arrayCubeNeededFiltered
+        this.nbCube = Math.floor(arrayCubeNeeded.length/4)
+      })
+    this.$axios
+      .get('http://' + this.$ipAdresse + ':5000/getUserResponse')
+      .then((response) => {
+        const userResponse = response.data
+        this.mapUserResponse = [];
+        this.userResponseValue = [];
+        for (let i = 0; i < userResponse.length; i++){
+          this.mapUserResponse[userResponse[i][3] + '' + userResponse[i][4]] = userResponse[i][2];
+          this.userResponseValue[i] = (userResponse[i][2]);
+        }
+      });
+    this.$axios
+      .get('http://' + this.$ipAdresse + ':5000/getCubesValuesAll')
+      .then((response) => {
+        const responseData = response['data']
+        for (let i = 0; i < responseData.length; i++){
+          this.mapCubeToId[responseData[i][0]] = responseData[i][1];
+        }
+      });
   },
   methods: {
     onSubmit(){

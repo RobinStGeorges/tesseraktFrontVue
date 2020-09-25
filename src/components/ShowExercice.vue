@@ -117,64 +117,6 @@
     <div class="col-4"></div>
     </div>
     <br>
-    <div class="row" id='cubeShow'>
-        <div class="col-3"></div>
-        <div class="col-6">
-<!--          RESOLUTION VIA CUBE-->
-          <table class="center ">
-            <div v-for="item_y in arrayOne(exercice[14])" :key="item_y">
-              <tr>
-                 <span v-for="item_x in arrayOne(exercice[13])" :key="item_x">
-                   {{ updateIdGrid() }}
-                   <td class="cube vide" v-bind:id="idGrid" :ref="idGrid">
-                   </td>
-                   {{ addOneIX() }}
-                 </span>
-              </tr>
-              {{ setIXTo0() }}
-              {{ addOneIY() }}
-            </div>
-            {{ setIXTo0() }}
-            {{ setIYTo0() }}
-          </table>
-        </div>
-        <div class="col-3"></div>
-      </div>
-      <br>
-      <div class="row">
-        <div class="col-3">
-        </div>
-        <div class="col-6 table-content">
-          <p>
-            Pas de cubes ? Tentez de résoudre l'exercice ici avant de regarder la réponse !
-          </p>
-            <table class="center">
-              <tr>
-                <td>
-                  <div class="masterCube">
-                  </div>
-                </td>
-              </tr>
-              <div v-for="item_y_virt in arrayOne(exercice[10])" :key="item_y_virt">
-                <tr>
-                 <span v-for="item_x_virt in arrayOne(exercice[9])" :key="item_x_virt">
-                   {{ updateIdGridVirtual() }}
-                   <td v-on:click="manageClass($event)" class="cube vide" v-bind:id="idGridVirtual" :ref="idGridVirtual">
-                     {{ addOneIXVirtual() }}
-                   </td>
-                 </span>
-                </tr>
-                {{ addOneIYVirtual() }}
-                {{ setIXTo0Virtual() }}
-              </div>
-              {{ setIYTo0Virtual() }}
-              {{ setIXTo0Virtual() }}
-            </table>
-        </div>
-        <div class="col-3">
-      </div>
-    </div>
-    <br>
     
 </div>
 </template>
@@ -217,30 +159,30 @@ export default {
   },
   mounted() {
     //Check if login first
-    if(localStorage.usertoken == ''){
-      this.$router.push({ name: 'loginForm' });
-    }
-    this.id = this.$route.params.id
-    const t = this;
-    this.$axios
-      .get('http://' + this.$ipAdresse + ':5000/getExercice/' + this.id)
-      .then(response => {
-        t.exercice = (response.data)[0];
-        t.objectCubes = t.exercice[8]
-        t.xCarMatrix = t.exercice[13]
-        t.yCarMatrix = t.exercice[14]
-        t.coordFinish = t.exercice[15]
-        t.xStart = t.exercice[16]
-        t.yStart = t.exercice[17]
-        const arrayCubeNeeded = t.objectCubes.split('"');
-        const arrayCubeNeededFiltered = {}
-        for(let i = 1; i<arrayCubeNeeded.length; i += 4){
-          arrayCubeNeededFiltered[arrayCubeNeeded[i]] = arrayCubeNeeded[i+2]
-        }
-        this.cubeNeeded = arrayCubeNeededFiltered
-        this.nbCube = Math.floor(arrayCubeNeeded.length/4)
-      })
-    this.$axios
+    // if(localStorage.usertoken == ''){
+    //   this.$router.push({ name: 'loginForm' });
+    // }
+    // this.id = this.$route.params.id
+    // const t = this;
+    // this.$axios
+    //   .get('http://' + this.$ipAdresse + ':5000/getExercice/' + this.id)
+    //   .then(response => {
+    //     t.exercice = (response.data)[0];
+    //     t.objectCubes = t.exercice[8]
+    //     t.xCarMatrix = t.exercice[13]
+    //     t.yCarMatrix = t.exercice[14]
+    //     t.coordFinish = t.exercice[15]
+    //     t.xStart = t.exercice[16]
+    //     t.yStart = t.exercice[17]
+    //     const arrayCubeNeeded = t.objectCubes.split('"');
+    //     const arrayCubeNeededFiltered = {}
+    //     for(let i = 1; i<arrayCubeNeeded.length; i += 4){
+    //       arrayCubeNeededFiltered[arrayCubeNeeded[i]] = arrayCubeNeeded[i+2]
+    //     }
+    //     this.cubeNeeded = arrayCubeNeededFiltered
+    //     this.nbCube = Math.floor(arrayCubeNeeded.length/4)
+    //   })
+    // this.$axios
       // .get('http://' + this.$ipAdresse + ':5000/getUserResponse')
       // .then((response) => {
       //   const userResponse = response.data
@@ -729,6 +671,5 @@ img{
 .modal-title{
   text-align: center;
   margin: auto;
-  
 }
 </style>

@@ -70,53 +70,6 @@
       </div>
     </transition>
       </div>
-
-      <div class="row">
-        <div class="col-6">
-          <div class="titre">
-            <h1>{{ exercice[1] }}</h1>
-          </div>
-          <hr>
-          <div class="contenu">
-            <p class="list-group-item-text" v-html="exercice[3]"></p>
-            <p> Vous aurez besoin de ces cubes :</p>
-            <div v-for="(cube, index) in this.cubeNeeded" :key="`cube-${index}`">
-              <div class="cubeValue">
-                {{ cube }}
-                {{ addClassToArray(cube) }}
-                <!-- {{ filterArray() }} -->
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-6">
-          <img id="imgDiv" class="img" :src="imgUrl"/>
-        </div>
-      </div>
-      <br>
-      <div class="row">
-        <div class="col-4">
-          <button  type="button" class="btn btn-primary">Comparer la réponse avec les cubes</button>
-        </div>
-        <div v-if="showExercice" class="col-4">
-          <button type="button" class="btn btn-success" v-on:click="changeImg(exercice[6])" >Voir l'exercice</button>
-        </div>
-        <div v-if="showExercice == false" class="col-4">
-          <button type="button" class="btn btn-warning" v-on:click="changeImg(exercice[7])" >Voir la réponse</button>
-        </div>
-        <div class="col-4">
-          <button v-on:click="setFinished(exercice[0])" type="button" class="btn btn-danger">Valider l'exercice</button>
-        </div>
-      </div>
-      <br>
-      <div class="row">
-    <div class="col-4"></div>
-    <div class="col-4">
-          <button v-on:click="checkWithCubes" type="button" class="btn btn-primary">Comparer la réponse avec les cubes virtuels</button>
-    </div>
-    <div class="col-4"></div>
-    </div>
-    <br>
     
 </div>
 </template>

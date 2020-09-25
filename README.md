@@ -1,30 +1,25 @@
-# tesserakt
+# Bienvenue !
 
-> A Vue.js project
+## tesseraktFrontVue est le front de l'application Web de Tesserakt
 
-## Build Setup
+Il permet d'afficher les donnée obtenu via l'api tesserakt
 
-``` bash
-# install dependencies
-npm install
+* Afin de le faire fonctionner, il faut tout d'abord installer les dépendances 
 
-# serve with hot reload at localhost:8080
-npm run dev
+> npm install
 
-# build for production with minification
-npm run build
+* Afin de pouvoir acceder à l'application, il est important de lancer l'application sur 0.0.0.0
 
-# build for production and view the bundle analyzer report
-npm run build --report
+> $ export HOST=0.0.0.0
+> $ npm run dev
 
-# run unit tests
-npm run unit
+## Et voilà !
 
-# run e2e tests
-npm run e2e
+* Pour vous connecter, recuperez l'adresse IP de la raspberry 
 
-# run all tests
-npm test
-```
+> ipconfig wlan0
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+* et dans votre navigateur, rentrez votre ip et le port de vue.js
+
+> http://xxx.xxx.x.xx:8080/
+

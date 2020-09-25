@@ -70,6 +70,111 @@
       </div>
     </transition>
       </div>
+
+      <div class="row">
+        <div class="col-6">
+          <div class="titre">
+            <h1>{{ exercice[1] }}</h1>
+          </div>
+          <hr>
+          <div class="contenu">
+            <p class="list-group-item-text" v-html="exercice[3]"></p>
+            <p> Vous aurez besoin de ces cubes :</p>
+            <div v-for="(cube, index) in this.cubeNeeded" :key="`cube-${index}`">
+              <div class="cubeValue">
+                {{ cube }}
+                {{ addClassToArray(cube) }}
+                <!-- {{ filterArray() }} -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <img id="imgDiv" class="img" :src="imgUrl"/>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-4">
+          <button  type="button" class="btn btn-primary">Comparer la réponse avec les cubes</button>
+        </div>
+        <div v-if="showExercice" class="col-4">
+          <button type="button" class="btn btn-success" v-on:click="changeImg(exercice[6])" >Voir l'exercice</button>
+        </div>
+        <div v-if="showExercice == false" class="col-4">
+          <button type="button" class="btn btn-warning" v-on:click="changeImg(exercice[7])" >Voir la réponse</button>
+        </div>
+        <div class="col-4">
+          <button v-on:click="setFinished(exercice[0])" type="button" class="btn btn-danger">Valider l'exercice</button>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+    <div class="col-4"></div>
+    <div class="col-4">
+          <button v-on:click="checkWithCubes" type="button" class="btn btn-primary">Comparer la réponse avec les cubes virtuels</button>
+    </div>
+    <div class="col-4"></div>
+    </div>
+    <br>
+    <div class="row" id='cubeShow'>
+        <div class="col-3"></div>
+        <div class="col-6">
+<!--          RESOLUTION VIA CUBE-->
+          <table class="center ">
+            <div v-for="item_y in arrayOne(exercice[14])" :key="item_y">
+              <tr>
+                 <span v-for="item_x in arrayOne(exercice[13])" :key="item_x">
+                   {{ updateIdGrid() }}
+                   <td class="cube vide" v-bind:id="idGrid" :ref="idGrid">
+                   </td>
+                   {{ addOneIX() }}
+                 </span>
+              </tr>
+              {{ setIXTo0() }}
+              {{ addOneIY() }}
+            </div>
+            {{ setIXTo0() }}
+            {{ setIYTo0() }}
+          </table>
+        </div>
+        <div class="col-3"></div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-3">
+        </div>
+        <div class="col-6 table-content">
+          <p>
+            Pas de cubes ? Tentez de résoudre l'exercice ici avant de regarder la réponse !
+          </p>
+            <table class="center">
+              <tr>
+                <td>
+                  <div class="masterCube">
+                  </div>
+                </td>
+              </tr>
+              <div v-for="item_y_virt in arrayOne(exercice[10])" :key="item_y_virt">
+                <tr>
+                 <span v-for="item_x_virt in arrayOne(exercice[9])" :key="item_x_virt">
+                   {{ updateIdGridVirtual() }}
+                   <td v-on:click="manageClass($event)" class="cube vide" v-bind:id="idGridVirtual" :ref="idGridVirtual">
+                     {{ addOneIXVirtual() }}
+                   </td>
+                 </span>
+                </tr>
+                {{ addOneIYVirtual() }}
+                {{ setIXTo0Virtual() }}
+              </div>
+              {{ setIYTo0Virtual() }}
+              {{ setIXTo0Virtual() }}
+            </table>
+        </div>
+        <div class="col-3">
+      </div>
+    </div>
+    <br>
     
 </div>
 </template>

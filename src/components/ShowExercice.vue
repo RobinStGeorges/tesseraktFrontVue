@@ -247,7 +247,9 @@ export default {
         this.mapUserResponse = [];
         this.userResponseValue = [];
         for (let i = 0; i < userResponse.length; i++){
+          //Put values of user response into a matrix
           this.mapUserResponse[userResponse[i][3] + '' + userResponse[i][4]] = userResponse[i][2];
+          //Put the commande of userresponse into an array
           this.userResponseValue[i] = (userResponse[i][2]);
         }
       });
@@ -286,18 +288,11 @@ export default {
         }
       });
     },
-    getUserResponse(){
-
-    },
-    getUserResponse(){
-
-    },
-    getCubeToIdMap(){
-
-    },
+    //display Modal
     setShowCubeDisplay: function(){
       this.showCubeDisplay = this.showCubeDisplay !== true;
     },
+    //create the grid to resolve exo
     async initGridExo(){
       const divById = document.getElementById('virt' + this.xStart + this.yStart);
       divById.classList.add('hasCarUP');

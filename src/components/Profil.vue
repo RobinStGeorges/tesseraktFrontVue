@@ -79,6 +79,7 @@ export default {
     this.$axios
       .get('http://' + this.$ipAdresse + ':5000/exercices')
       .then(response => (this.exercices = response.data))
+    //create the graph with datas from the api
     this.$axios
       .get('http://' + this.$ipAdresse + ':5000/getDateDif/' + this.userMail)
       .then(response => {

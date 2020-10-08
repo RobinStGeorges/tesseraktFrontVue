@@ -33,10 +33,12 @@ export default {
     }
   },
   mounted () {
-    //Check if login first
+    //Check if user is loggedIn,
+    //if not, user is redirected to logIn
     if(localStorage.usertoken == ''){
       this.$router.push({ name: 'loginForm' });
     }
+    //if he is, we get the exercices data from the api
     this.$axios
       .get('http://' + this.$ipAdresse + ':5000/exercices')
       .then(response => (this.exercices = response))

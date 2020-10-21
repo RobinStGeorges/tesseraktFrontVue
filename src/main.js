@@ -10,6 +10,8 @@ import Chart from 'chart.js'
 Vue.use(Chartkick.use(Chart))
 Vue.use(VueAxios)
 Vue.prototype.$userMail = ''
+/*Vue.prototype.$ipAdresse = '192.168.43.28'*/
+/*Vue.prototype.$ipAdresse = '10.33.4.242'*/
 Vue.prototype.$ipAdresse = '192.168.0.24'
 Vue.config.productionTip = false
 

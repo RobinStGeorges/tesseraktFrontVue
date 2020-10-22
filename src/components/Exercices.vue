@@ -3,6 +3,8 @@
     <div class="row">
       <div class="col-xs-12 content-col">
         <h2>Vos exercices</h2>
+	<br>
+	<button v-on:click="downloadExo" type="button" class="btn btn-primary">mettre à jours</button>
         <div class="list-group">
           <div
             class="list-group-item" v-for="item in exercices['data']" :key="item">
@@ -30,6 +32,15 @@ export default {
     return {
       acc: 0,
       exercices: []
+    }
+  },
+  methods: {
+    downloadExo(){
+      this.$axios
+        .post('http://' + this.$ipAdresse + ':5000/downloadExercice')
+        .then((response) => {
+         console.log("mise a jour");
+      });
     }
   },
   mounted () {

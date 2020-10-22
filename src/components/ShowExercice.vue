@@ -122,9 +122,9 @@
         <div class="col-6">
 <!--          RESOLUTION VIA CUBE-->
           <table class="center ">
-            <div v-for="item_y in arrayOne(exercice[14])" :key="item_y">
+            <div v-for="item_y in arrayOne(yCarMatrix)" :key="item_y">
               <tr>
-                 <span v-for="item_x in arrayOne(exercice[13])" :key="item_x">
+                 <span v-for="item_x in arrayOne(xCarMatrix)" :key="item_x">
                    {{ updateIdGrid() }}
                    <td class="cube vide" v-bind:id="idGrid" :ref="idGrid">
                    </td>
@@ -225,13 +225,28 @@ export default {
     this.$axios
       .get('http://' + this.$ipAdresse + ':5000/getExercice/' + this.id)
       .then(response => {
+        
         t.exercice = (response.data)[0];
+        //console.log(t.exercice);
+
         t.objectCubes = t.exercice[8]
-        t.xCarMatrix = t.exercice[13]
-        t.yCarMatrix = t.exercice[14]
-        t.coordFinish = t.exercice[15]
-        t.xStart = t.exercice[16]
-        t.yStart = t.exercice[17]
+	//console.log("objectCubes : " + t.objectCubes);
+
+        t.xCarMatrix = t.exercice[12]
+	//console.log("car matrix : " + t.xCarMatrix);
+
+        t.yCarMatrix = t.exercice[13]
+	//console.log("car matriy : " + t.yCarMatrix);
+
+        t.coordFinish = t.exercice[14]
+	//console.log("corFinish : " + t.coordFinish);
+	
+        t.xStart = t.exercice[15]
+	//console.log("x start : " + t.xStart);
+
+        t.yStart = t.exercice[16]
+	//console.log("y start : " + t.yStart);
+
         const arrayCubeNeeded = t.objectCubes.split('"');
         const arrayCubeNeededFiltered = {}
         for(let i = 1; i<arrayCubeNeeded.length; i += 4){
@@ -244,8 +259,11 @@ export default {
       .get('http://' + this.$ipAdresse + ':5000/getUserResponse')
       .then((response) => {
         const userResponse = response.data
+	console.log("user response : " + userResponse);
+
         this.mapUserResponse = [];
         this.userResponseValue = [];
+
         for (let i = 0; i < userResponse.length; i++){
           //Put values of user response into a matrix
           this.mapUserResponse[userResponse[i][3] + '' + userResponse[i][4]] = userResponse[i][2];
@@ -294,6 +312,7 @@ export default {
     },
     //create the grid to resolve exo
     async initGridExo(){
+      console.log("initialisation de la grid");
       const divById = document.getElementById('virt' + this.xStart + this.yStart);
       divById.classList.add('hasCarUP');
       await this.delay(500);
@@ -414,27 +433,29 @@ export default {
       console.log('indexVar : ' + indexVar)
       console.log('mapuserresponse')
       console.log(this.mapUserResponse)
-      console.log('mapCubetoId : ')
+      console.log('mapCubetoId : ' + this.mapCubeToId)
       console.log(this.mapCubeToId)
-        if (this.mapCubeToId[Number(this.mapUserResponse['' + x + y])-1] === 'AVANCER') { // AVANCER
+      console.log('value : ');
+      console.log(this.mapCubeToId[Number(this.mapUserResponse['' + x + y])]);
+        if (this.mapCubeToId[Number(this.mapUserResponse['' + x + y])] === 'AVANCER') { // AVANCER
         console.log('avancer')
-          if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 1)])-1] === 'EGAL') { // EGAL
+          if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 1)])] === 'EGAL') { // EGAL
           console.log('egal')
-            if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 2)])-1] === 'DEUX') {
+            if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 2)])] === 'DEUX') {
               console.log("deux")
               for (let indexFor = 0; indexFor < 2; indexFor ++){
                 await this.delay(1000);
                 this.forward();
               }
             }
-            else if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 2)])-1] === 'UN'){
+            else if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 2)])] === 'UN'){
               console.log("un")
               for (let indexFor = 0; indexFor < 1; indexFor ++){
                 await this.delay(1000);
                 this.forward();
               }
             }
-            else if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 2)])-1] === 'TROIS'){
+            else if (this.mapCubeToId[Number(this.mapUserResponse['' + x + (y + 2)])] === 'TROIS'){
               console.log("trois")
               for (let indexFor = 0; indexFor < 3; indexFor ++){
                 await this.delay(1000);
@@ -458,7 +479,7 @@ export default {
           }
         }
         // TOURNER A GAUCHE
-        if (this.mapCubeToId[Number(this.mapUserResponse['' + x + y])-1] === 'VIRAGEGAUCHE'){
+        if (this.mapCubeToId[Number(this.mapUserResponse['' + x + y])] === 'VIRAGEGAUCHE'){
           console.log('a gauche')
           this.manageVirageAGauche();
         }
@@ -513,7 +534,6 @@ export default {
       this.setShowCubeDisplay();
       this.initGridExo();
       this.initVirtMatrixStartFinish();
-      // this.getValueFromId(3);
       this.manageCubesAlgo();
     },
     changeImg: function(path) {
@@ -527,7 +547,7 @@ export default {
         // REGARDE SI LA DIV EST INIT, SI NON INIT AVEC ARRAYCUBENEDEED[0]
         divById[0]['classList'].remove('vide');
         divById[0]['classList'].add(this.cubeNeeded[1]);
-        divById[0]['innerText'] = this.cubeNeeded[1];
+        //divById[0]['innerText'] = this.cubeNeeded[1];
       }
       else{
         // MET LA CLASS +1 DANS LA LISTE DES CLASS NEEDED, SI OUT OF BOUND, 0
@@ -536,11 +556,11 @@ export default {
         if (indexClassInArray + 1 > arraysize){
           divById[0]['classList'].remove(divById.classList[1]);
           divById[0]['classList'].add(this.classList[0]);
-          divById.innerText = this.classList[0];
+          //divById.innerText = this.classList[0];
         }
       divById[0]['classList'].remove(divById[0]['classList'][1]);
       divById[0]['classList'].add(this.classList[indexClassInArray + 1]); 
-      divById[0]['innerText'] = this.classList[indexClassInArray + 1];
+      //divById[0]['innerText'] = this.classList[indexClassInArray + 1];
       }
     },
     goto: function(){
@@ -679,23 +699,40 @@ img{
 .AVANCER{
   background-color: crimson;
   vertical-align: middle;
+  background-image:url('../assets/images/roue.png');
+  background-size: 94px;
 }
 .EGAL{
   background-color: green;
   vertical-align: middle;
+  background-image:url('../assets/images/egal.png');
+  background-size: 94px;
 }
 .TROIS{
   background-color: slateblue;
   vertical-align: middle;
+  background-image:url('../assets/images/3.png');
+  background-size: 94px;
 }
 .UN{
   background-color: lawngreen;
+  background-image:url('../assets/images/1.png');
+  background-size: 94px;
 }
 .DEUX{
   background-color: aquamarine;
+  background-image:url('../assets/images/2.png');
+  background-size: 94px;
 }
 .VIRAGEGAUCHE{
   background-color: antiquewhite;
+  background-image:url('../assets/images/viragegauche.png');
+  background-size: 94px;
+}
+.VIRAGEDROITE{
+  background-color: antiquewhite;
+  background-image:url('../assets/images/viragedroite.png');
+  background-size: 94px;
 }
 .hasCarUP{
   background-image: url("../assets/images/car_top_up.png");
